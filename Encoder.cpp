@@ -36,8 +36,8 @@ public:
 private:
     int memory = 0;  // Состояние регистра (m бит)
 };
-
-int main() {
+ 
+int TestEncoder() {
     int k=1, n=2, m=2;
     vector<vector<int>> g{{7}, {5}};
     Encoder encoder(k, n, m, g);
@@ -46,4 +46,5 @@ int main() {
     for (int i = 0 ; i < input.size(); i++) {
         printf("%2d ", encoder.encode(input[i]));
     }
+    return 0;
 }
