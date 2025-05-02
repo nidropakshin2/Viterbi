@@ -7,7 +7,7 @@ using namespace std;
 
 int NUM_BITS = 1 << 20;
 
-int main() {
+void TestPipeline() {
     float gen_p = 0.1;
     Generator generator(gen_p);
     int k=1, n=2, m=2;
@@ -21,5 +21,10 @@ int main() {
         encoded_data = encoder.encode(data);
         transmitted_data = bsc.transmit(encoded_data); 
         printf("%d\t%d\t%d\n", data, encoded_data, transmitted_data);
-    } 
+    }
+}
+
+
+int main() {
+    TestTrellis();
 }
