@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <vector>
-#include <windows.h>
 #include <stdexcept>
 
 using namespace std;
