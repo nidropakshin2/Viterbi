@@ -27,18 +27,17 @@ public:
             data = (data << 1) ^ dist(gen);
         return data;
     }
-};
 
-int TestGenerator() {
-    float p = 0.2;
-    Generator G(p);
-    int n = 100;
-    float c = 0;
-    for (int i = 0; i < n; i++) {
-        int data = G.generate_bit();
-        c += data;
-        printf("%d", data);
+    vector<int> generate_flow(int block_size) {
+        vector<int> data(block_size, 0);
+        for (int i = 0; i < block_size; i++)
+            data[i] ^= dist(gen);
+        return data;
     }
-    printf("\n%.2f", c / n);
-    return 0;
-}
+
+    vector<int> impulse(int block_size) {
+        vector<int> data(block_size, 0);
+        data[0] = 1;
+        return data;
+    }
+};
