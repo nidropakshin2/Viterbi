@@ -7,14 +7,12 @@ using namespace std;
 
 class Generator {
     float p;
-    mt19937 gen;  // Генератор (член класса)
-    bernoulli_distribution dist;  // Распределение (член класса)
+    mt19937 gen;  // Генератор
+    bernoulli_distribution dist;  // Распределение
 
 public:
-    // Конструктор по умолчанию
     Generator() : p(0.5), gen(random_device{}()), dist(0.5) {}
 
-    // Конструктор с параметром p
     Generator(float prob) : p(prob), gen(random_device{}()), dist(prob) {}
 
     int generate_bit() {

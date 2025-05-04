@@ -58,7 +58,6 @@ class Encoder {
             vector<vector<trel>> trellis(NUM_STATES, vector<trel>(2));
             for (int mem_state = 0; mem_state < NUM_STATES; mem_state++) {
                 for (int incoming_bit = 0; incoming_bit < 2; incoming_bit++) {
-                    // Используем локальную переменную для состояния
                     vector<int> output;
                     int temp = mem_state;
                     temp = (temp << 1) ^ (incoming_bit & 1);
@@ -177,7 +176,8 @@ class Decoder {
                 }
             }
 
-            /* Обновляем метрики путей */
+            // Обновляем метрики путей
+
             // surv_log(survivor, false);
             survivor = surv_temp;
             // surv_log(survivor, false);
@@ -224,6 +224,7 @@ class Decoder {
             return c;
         }
 
+        /* Вспомогательная функция для логгирования*/
         void surv_log(vector<surv> sv, bool temp) {
             if (temp) fprintf(dec_log, "\n\t\t\t\t\t\t\t\t\t\tSURVIVOR_TEMP\n"); 
             else fprintf(dec_log, "\n\t\t\t\t\t\t\t\t\t\tSURVIVOR\n");
