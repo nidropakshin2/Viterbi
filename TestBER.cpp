@@ -43,5 +43,5 @@ void BER(string csv_name) {
 }
 
 int main() {
-    BER("BER.csv");
+    BER("temp/BER.csv");
 }

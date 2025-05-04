@@ -5,7 +5,7 @@ buildBER:
 runBER: buildBER
 	./TestBER.exe
 graph:
-	python graph.py
+	python utils/graph.py
 
 decoder: buildDEC runDEC
 

@@ -1,5 +1,5 @@
-#include "DataGenerator.cpp"
-#include "BSC.cpp"
+#include "utils/DataGenerator.cpp"
+#include "utils/BSC.cpp"
 #include "Viterbi.cpp"
 
 using namespace std;

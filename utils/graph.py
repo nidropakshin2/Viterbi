@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Загрузка данных
-df = pd.read_csv("BER.csv", header=0)
+df = pd.read_csv("./temp/BER.csv", header=0)
 data = df.to_numpy()
 
 plt.figure(figsize=(10, 6))
@@ -30,5 +30,5 @@ plt.grid(True, which="both", linestyle="--", alpha=0.5)
 plt.legend()
 
 plt.tight_layout()
-plt.savefig("BER.png", dpi=300)
+plt.savefig("temp/BER.png", dpi=300)
 plt.show()
