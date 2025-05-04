@@ -8,7 +8,7 @@
 ## Результаты
 
 Для декодера (7, 5)-сверточного кода получен следующий график  
-![BER](https://github.com/nidropakshin2/Viterbi/blob/master/BER.png)
+![BER](https://github.com/nidropakshin2/Viterbi/blob/master/temp/BER.png)
 
 ## Запуск
 Для запуска вычисления BER 
