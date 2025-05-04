@@ -41,3 +41,17 @@ public:
         return data;
     }
 };
+
+int TestGeneratorFlow() {
+    float p = 0.2;
+    Generator G(p);
+    int n = 100;
+    float c = 0;
+    auto flow = G.generate_flow(n);
+    for (int i = 0; i < n; i++) {
+        c += flow[i];
+        printf("%d", flow[i]);
+    }
+    printf("\n%.2f", c / n);
+    return 0;
+}
