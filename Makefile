@@ -1,8 +1,15 @@
-all: build run graph
+BER: buildBER runBER graph
 
-build:
-	g++ Test.cpp -o test.exe
-run: build
-	./test.exe
+buildBER:
+	g++ TestBER.cpp -o TestBER.exe
+runBER: buildBER
+	./TestBER.exe
 graph:
 	python graph.py
+
+decoder: buildDEC runDEC
+
+buildDEC:
+	g++ TestDecoder.cpp -o TestDecoder.exe
+runDEC: buildDEC
+	./TestDecoder.exe
