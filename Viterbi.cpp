@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <stdexcept>
+#include <climits>
 
 using namespace std;
 
@@ -245,19 +246,6 @@ class Decoder {
             }
         }
 };
-
-
-int TestEncoder() {
-    int k=1, n=2, m=2;
-    vector<vector<int>> g{{7}, {5}};
-    Encoder encoder(k, n, m, g);
-    
-    vector<int> input{1, 0, 0, 0, 0, 0};
-    for (int i = 0 ; i < input.size(); i++) {
-        printf("%2d ", encoder.encode(input[i]));
-    }
-    return 0;
-}
 
 int TestTrellis() {
     int k=1, n=2, m=2;
