@@ -14,6 +14,7 @@ struct trel {
     vector<int> output;
 };
 
+
 FILE* enc_log = fopen("encoder.txt", "w");
 FILE* dec_log = fopen("decoder.txt", "w");
 
@@ -23,7 +24,7 @@ class Encoder {
         int k;  // кол-во входов (пока что реализован только один)
         int n;  // Количество выходов
         int m;  // Память
-        vector<vector<int>> generators;  // Генераторные полиномы
+        vector<vector<int>> generators;  // Генераторные полиномы в !!!восьмеричной!!! СИ
         int NUM_STATES;
 
         Encoder(int k, int n, int m, const vector<vector<int>>& gens): k(k), n(n), m(m), generators(gens) {

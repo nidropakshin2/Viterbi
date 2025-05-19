@@ -11,12 +11,12 @@ void BER(string csv_name) {
 
     float gen_p = 0.5;
     int N = 100000;
-    int k=1, n=2, m=2;
-    vector<vector<int>> g{{7}, {5}};
+    int k=1, n=2, m=6;
+    vector<vector<int>> g{{0171}, {0133}};
 
     fout << "p, BER_min, BER_avg, BER_max\n";
 
-    for (float p = 0.005; p <= 0.1; p+=0.005) {
+    for (float p = 0.005; p <= 1; p+=0.01) {
         vector<float> bit_error_rates(3);
 
         for (int i = 0; i < bit_error_rates.size(); i++) {

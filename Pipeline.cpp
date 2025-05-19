@@ -57,7 +57,7 @@ float Pipeline(float gen_p, float p, int k, int n, int m, vector<vector<int>> &g
 }
 
 
-float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<int>> &g, int N) {
+float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<int>> &g, int N, int speed) {
     Generator G(gen_p);
     BSC bsc(p);
     Encoder encoder(k, n, m, g);
@@ -70,7 +70,6 @@ float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<
 
     vector<int> data_buffer(20), decoded_buffer(20);
     printf("\e[?25l");
-    
     for (int i = 0; i < data.size(); i++) {
 
         vector<int> encoded_data = encoder.encode(data[i]);
@@ -92,7 +91,7 @@ float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<
             data_buffer[i] = data_buffer[(i+1) % data_buffer.size()];
         }
         if (i + 1 >= decoder.DECODING_DEPTH)
-            data_buffer[data_buffer.size() - 1] = data[i - decoder.DECODING_DEPTH];
+            data_buffer[data_buffer.size() - 1] = data[i - decoder.DECODING_DEPTH + 1];
         else 
             data_buffer[data_buffer.size() - 1] = 0;
         
@@ -106,18 +105,30 @@ float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<
         printf("-> {%d}", (i + 1 >= decoder.DECODING_DEPTH) ? decoded_data: 0);
 
         printf("\nDecoded data   : ");
-        for (int i = 0; i < decoded_buffer.size(); i++) {
-            if (i < decoded_buffer.size() - 1) printf("%d ", decoded_buffer[i]);
-            else printf("{%d}", decoded_buffer[i]);
-            
-            decoded_buffer[i] = decoded_buffer[(i+1) % decoded_buffer.size()];
+
+        for (int j = 0; j < decoded_buffer.size(); j++) {
+            if (j < decoded_buffer.size() - 1) {
+                if (decoded_buffer[j] > 1) {
+                    printf("%c ", decoded_buffer[j]);
+                }
+                else
+                    printf("%d ", decoded_buffer[j]);
+            }
+            else {
+                if (decoded_buffer[j] > 1) {
+                    printf("{%c}", decoded_buffer[j]);
+                }
+                else
+                    printf("{%d}", decoded_buffer[j]);
+            }
+            decoded_buffer[j] = decoded_buffer[(j+1) % decoded_buffer.size()];
         }
 
         if (i + 1 >= decoder.DECODING_DEPTH)
             decoded_buffer[decoded_buffer.size() - 1] = decoded_data;
         else 
             decoded_buffer[decoded_buffer.size() - 1] = 0;
-        usleep(500);
+        usleep(speed * 1000);
 
         printf("\nError Rate     : %.3f", error_rate);
 
@@ -130,4 +141,3 @@ float RealTimePipeline(float gen_p, float p, int k, int n, int m, vector<vector<
     printf("\n");
     return error_rate;
 }
-
