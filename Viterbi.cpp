@@ -33,22 +33,17 @@ class Encoder {
             }
             NUM_STATES = 1 << m;
             memory = 0;
-            // fprintf(enc_log, "Encoder initialized with k, n, m: %d %d %d\n", k, n, m);
-            // fprintf(enc_log, "Memory: %d\n", memory);
         }
 
         vector<int> encode(int data) {
             vector<int> output;
             int temp = memory;
             temp = (temp << 1) ^ (data & 1);
-            // fprintf(enc_log, "\nMemory: %d, Data: %d, NewMemory: %d\n", data, memory, temp & (NUM_STATES - 1));
-            // fprintf(enc_log, "Output: ");
             for (int i = 0; i < n; i++) {
                 int result = 0;
                 for (int j = m; j >= 0; j--) {
                     result ^= ((temp & generators[i][0]) >> j) & 1;
                 }
-                // fprintf(enc_log, "%d ", result);
                 output.push_back(result);
             }
             memory = temp & (NUM_STATES - 1); // Обрезание по размеру регистра
@@ -56,7 +51,6 @@ class Encoder {
         }
 
         vector<vector<trel>> gen_trellis() {
-            // fprintf(dec_log, "\nGENERATING TRELLIS\n");
             vector<vector<trel>> trellis(NUM_STATES, vector<trel>(2));
             for (int mem_state = 0; mem_state < NUM_STATES; mem_state++) {
                 for (int incoming_bit = 0; incoming_bit < 2; incoming_bit++) {
@@ -79,16 +73,6 @@ class Encoder {
                     };
                 }
             }
-            // fprintf(dec_log, "\n");
-            // for (int i = 0; i < trellis.size(); i++) {
-            //     for(int j = 0; j < 2; j++) {
-                    // fprintf(dec_log,"%d\t%d\t%d\t", trellis[i][j].init, trellis[i][j].data, trellis[i][j].final);
-                    // for (int k = 0; k < n; k++) {
-                        // fprintf(dec_log,"%d ", trellis[i][j].output[k]);
-                    // }
-                    // fprintf(dec_log,"\n");
-            //     }
-            // }
             return trellis;
         }
 
@@ -108,8 +92,7 @@ class Decoder {
             n = encoder.n;
             m = encoder.m;
             NUM_STATES = 1 << m;
-            DECODING_DEPTH = 6 * m;
-            // fprintf(dec_log, "Decoder initialized with n, m, Decoding depth: %d %d %d\n", n, m, DECODING_DEPTH);
+            DECODING_DEPTH = 6 * m; 
 
             trellis = encoder.gen_trellis();
             survivor = vector<surv> (NUM_STATES);
@@ -126,34 +109,18 @@ class Decoder {
 
             surv_metric = vector<int> (NUM_STATES, INT_MAX);
             
-            // fprintf(dec_log, "Received: ");
-            for (int i = 0; i < n; i++)
-                // fprintf(dec_log, "%d ", received[i]);
-            // fprintf(dec_log, "\n");
-
             for (int i = 0; i < NUM_STATES; i++) {
-                // fprintf(dec_log, "\tState %d\n", i);
+                
                 for (int j = 0; j < 2; j++) {
-                    // fprintf(dec_log, "\t\tBranch: %d\n", j);
-                    // fprintf(dec_log, "\t\t\tfinal state: %d\n", trellis[i][j].final);
                     /* Считаем метрику между принятой последовательностью и возможной отправленной */
                     int metric_temp = comp_metric(received, trellis[i][j].output);
-                    // fprintf(dec_log, "\t\t\tmetric(");
-                    // for (int k = 0; k < n; k++)
-                        // fprintf(dec_log, "%d", received[k]);
-                    // fprintf(dec_log, ", ");
-                    // for (int k = 0; k < n; k++)
-                        // fprintf(dec_log, "%d", trellis[i][j].output[k]);
-                    // fprintf(dec_log, ") = %d\n", metric_temp);
 
                     metric_temp += survivor[i].metric;
-                    // fprintf(dec_log, "\t\t\tsurvivor[%d].metric: %d\n", i, survivor[i].metric);
-    
+                  
                     int final_state = trellis[i][j].final;
 
                     /* Если метрика улучшилась, то обновляем пути */
                     if (metric_temp < surv_metric[final_state]) {
-                        // fprintf(dec_log, "\t\t\t\tBetter metric: %d\n", metric_temp);
                         surv_metric[final_state] = metric_temp;
 
                         /* Обновляем пути data и состояний */
@@ -161,28 +128,19 @@ class Decoder {
                         surv_temp[final_state].data = survivor[i].data;
                         surv_temp[final_state].states = survivor[i].states;
                         
-                        // surv_log(surv_temp, true);
 
                         surv_temp[final_state].data.erase(surv_temp[final_state].data.begin());
                         surv_temp[final_state].data.push_back(trellis[i][j].data);
                 
                         surv_temp[final_state].states.erase(surv_temp[final_state].states.begin());
                         surv_temp[final_state].states.push_back(final_state);
-                        // surv_log(surv_temp, true);
                     }
-                                            
-                    // fprintf(dec_log, "\t\t\t\tsurv_metric: ");
-                    // for (int k = 0; k < NUM_STATES; k++)
-                        // fprintf(dec_log, "%d ", surv_metric[k]);
-                    // fprintf(dec_log, "\n");
                 }
             }
 
             // Обновляем метрики путей
 
-            // surv_log(survivor, false);
             survivor = surv_temp;
-            // surv_log(survivor, false);
             current_step++;
     
             // Возвращаем декодированный бит с задержкой
@@ -224,27 +182,6 @@ class Decoder {
                 c += received[i] ^ reference[i];
             }
             return c;
-        }
-
-        /* Вспомогательная функция для логгирования*/
-        void surv_log(vector<surv> sv, bool temp) {
-            if (temp) fprintf(dec_log, "\n\t\t\t\t\t\t\t\t\t\tSURVIVOR_TEMP\n"); 
-            else fprintf(dec_log, "\n\t\t\t\t\t\t\t\t\t\tSURVIVOR\n");
-            for (int i = 0; i < NUM_STATES; i++) {
-                surv s = sv[i];
-                fprintf(dec_log, "\t\t\t\t\t\t\t\t\t\tS_%d: \n", i);
-                fprintf(dec_log, "\t\t\t\t\t\t\t\t\t\t\tmetric: %d\n", s.metric);
-
-                fprintf(dec_log, "\t\t\t\t\t\t\t\t\t\t\tdata  : ");
-                for (int j = 0; j < DECODING_DEPTH; j++)
-                    fprintf(dec_log, "%d ", s.data[j]);
-                fprintf(dec_log, "\n");
-
-                fprintf(dec_log, "\t\t\t\t\t\t\t\t\t\t\tstates: ");
-                for (int j = 0; j < DECODING_DEPTH; j++)
-                    fprintf(dec_log, "%d ", s.states[j]);
-                fprintf(dec_log, "\n");
-            }
         }
 };
 

@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
     float gen_p = 0.5;
-    float p = 0.01;
+    float p = 0.1;
     int N = 100000;
     int k=1, n=2, m=6;
     int speed = 100; 
