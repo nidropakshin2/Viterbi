@@ -11,7 +11,7 @@
 
 Для декодера (171, 133)-сверточного кода получен следующий график
 
-<p style="text-align: center;"><p style="text-align: center;">![BER](https://github.com/nidropakshin2/Viterbi/blob/master/temp/BER.png)</p>
+<p style="text-align: center;">![BER](https://github.com/nidropakshin2/Viterbi/blob/master/temp/BER.png)</p>
 
 ## Запуск
 Для запуска вычисления BER 
