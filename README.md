@@ -11,7 +11,7 @@
 
 Для декодера (171, 133)-сверточного кода получен следующий график
 
-<p style="text-align: center;">![BER](https://github.com/nidropakshin2/Viterbi/blob/master/temp/BER.png)</p>
+![BER](https://github.com/nidropakshin2/Viterbi/blob/master/temp/BER.png)
 
 ## Запуск
 Для запуска вычисления BER 
@@ -24,8 +24,7 @@ make BER
 ```bash
 make decoder
 ```
-
-<p style="text-align: center;">![Viterbi Decoder in work](https://github.com/nidropakshin2/Viterbi/blob/master/temp/VDAnimation.gif)</p>
+![Viterbi Decoder in work](https://github.com/nidropakshin2/Viterbi/blob/master/temp/VDAnimation.gif)
 
 ## TODO
 ~~Наблюдаются какие-то баги в точности декодирования для больших значений генераторных полиномов (в районе от 40 и больше) и для больших значений памяти (от 6 и выше). Например memory-6 rate-1/2 кодер с полиномами (171, 133) пока что не декодируется, наверное тут нужна оптимизация~~.
